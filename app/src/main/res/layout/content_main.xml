@@ -55,5 +55,17 @@
             android:text="Send Notification with Alarm"
             android:id="@+id/send_alarm_button" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Repeat Notification with Alarm"
+            android:id="@+id/send_repeat_alarm_button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove Repeat Notification with Alarm"
+            android:id="@+id/remove_repeat_alarm_button" />
+
     </LinearLayout>
 </RelativeLayout>

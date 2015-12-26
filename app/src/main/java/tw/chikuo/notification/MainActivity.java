@@ -71,6 +71,24 @@ public class MainActivity extends AppCompatActivity {
                 sendAlarmNotification();
             }
         });
+
+        // Send Repeat Notification with AlarmManager
+        Button sendRepeatAlarmButton = (Button) findViewById(R.id.send_repeat_alarm_button);
+        sendRepeatAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRepeatAlarmNotification();
+            }
+        });
+
+        // Remove Repeat Notification with AlarmManager
+        Button removeRepeatAlarmButton = (Button) findViewById(R.id.remove_repeat_alarm_button);
+        removeRepeatAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeRepeatAlarmNotification();
+            }
+        });
     }
 
     private void sendNotification() {
@@ -132,16 +150,47 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, 3);
 
-        String message = "notification";
-        int id = (int) System.currentTimeMillis();
+        String message = "notification with 3 second";
+        int alarmId = (int) System.currentTimeMillis();
 
         // Define the AlarmManager's Action
         Intent intent = new Intent(MainActivity.this, MyBroadcastReceiver.class);
         intent.putExtra("message", message);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    private void sendRepeatAlarmNotification() {
+
+        // Setup Alarm Calendar
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, 5);
+
+        String message = "repeat notification with 5 second";
+        int alarmId = 2;
+
+        // Define the AlarmManager's Action
+        Intent intent = new Intent(MainActivity.this, MyBroadcastReceiver.class);
+        intent.putExtra("message", message);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Setup AlarmManager Repeating with 5 second
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5 * 1000, pendingIntent);
+    }
+
+    private void removeRepeatAlarmNotification() {
+
+        // Setup the alarmId which you need to remove
+        int alarmId = 2;
+
+        Intent intent = new Intent(MainActivity.this, MyBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, alarmId, intent, 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
 
     @Override
