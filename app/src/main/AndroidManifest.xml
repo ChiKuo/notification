@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tw.chikuo.notification">
 
+    <!--This allows your app to receive the ACTION_BOOT_COMPLETED
+        that is broadcast after the system finishes booting
+        (this only works if the app has already been launched by the user at least once):-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +27,10 @@
 
         <!-- BroadcastReceiver -->
         <receiver android:name=".MyBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="tw.chikuo.notification.NOTIFICATION"></action>
+            </intent-filter>
         </receiver>
 
 

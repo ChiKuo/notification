@@ -20,6 +20,9 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String BROADCAST_NOTIFICATION = "tw.chikuo.notification.NOTIFICATION";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         int alarmId = (int) System.currentTimeMillis();
 
         // Define the AlarmManager's Action
-        Intent intent = new Intent(MainActivity.this, MyBroadcastReceiver.class);
+        Intent intent = new Intent(BROADCAST_NOTIFICATION);
         intent.putExtra("message", message);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -169,12 +172,12 @@ public class MainActivity extends AppCompatActivity {
         calendar.add(Calendar.SECOND, 5);
 
         String message = "repeat notification with 5 second";
-        int alarmId = 2;
+        int pendingIntentId = 2;
 
         // Define the AlarmManager's Action
-        Intent intent = new Intent(MainActivity.this, MyBroadcastReceiver.class);
+        Intent intent = new Intent(BROADCAST_NOTIFICATION);
         intent.putExtra("message", message);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, pendingIntentId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Setup AlarmManager Repeating with 5 second
         AlarmManager alarmManager = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
@@ -184,10 +187,10 @@ public class MainActivity extends AppCompatActivity {
     private void removeRepeatAlarmNotification() {
 
         // Setup the alarmId which you need to remove
-        int alarmId = 2;
+        int pendingIntentId = 2;
 
-        Intent intent = new Intent(MainActivity.this, MyBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, alarmId, intent, 0);
+        Intent intent = new Intent(BROADCAST_NOTIFICATION);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, pendingIntentId, intent, 0);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
